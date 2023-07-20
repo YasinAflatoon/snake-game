@@ -4,6 +4,7 @@ from food import Food
 from scoreboard import ScoreBoard
 import time
 
+
 sc = Screen()
 sc.setup(width=600, height=600)
 sc.bgcolor("black")
@@ -22,7 +23,6 @@ sc.onkey(snake.left, "Left")
 
 game_on = True
 while game_on:
-
     sc.update()
     time.sleep(0.1)
     snake.move()
@@ -30,16 +30,21 @@ while game_on:
     if snake.head.distance(food) < 18:
         snake.extend()
         food.place()
-        score_board.update_board()
+        score_board.update_score()
 
     if snake.head.xcor() > 280 or snake.head.xcor() < -300 or snake.head.ycor() > 300 or snake.head.ycor() < -300:
-        game_on = False
         score_board.game_over()
+        sc.update()
+        time.sleep(1)
+        score_board.over.clear()
+        snake.reset()
 
-    for seg in snake.segments[2:]:
+    for seg in snake.segments[3:]:
         if snake.head.distance(seg) < 15:
-            game_on = False
             score_board.game_over()
-
+            sc.update()
+            time.sleep(1)
+            score_board.over.clear()
+            snake.reset()
 
 sc.exitonclick()
